@@ -76,6 +76,7 @@ prompt.get(schema, function(err, result) {
 
     //validation
     if ('' !==  util.getErrors(
+        appHost,
         cwd,
         filename
     )){

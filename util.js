@@ -8,7 +8,7 @@ module.exports = self;
 
 
 //definitions
-self.getErrors = function(cwd, filename) {
+self.getErrors = function(appHost, cwd, filename) {
     //validation
     //pre-error
     var isValidDir = true;
@@ -34,6 +34,9 @@ self.getErrors = function(cwd, filename) {
     } catch (e) {
         console.log('Error: '.bold.red + ' component or application of the same name ' + filename.green + ' already existed in the directory ');
         console.log(cwd.green);
+
+        self.showAuraUrl(appHost, 'cmp', filename);
+        self.showAuraUrl(appHost, 'app', filename);
         return;
     }
     return '';
