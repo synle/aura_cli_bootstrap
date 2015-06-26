@@ -1,6 +1,15 @@
 Command line tool used to bootstrap Salesforce Aura codes
 =========================================================
 
+Installation
+```
+	#clone this repo
+
+	#then run npm link
+	npm link
+```
+
+Usage
 ```
 ./auracli
 

@@ -1,6 +1,6 @@
 module.exports = {
     'properties': {
-        'type': {
+        'filetype': {
             'message': 'File type: ' + 'cmp'.bold.blue + ' or ' + 'app'.bold.blue + '?',
             'required': true,
             'default': 'cmp'
