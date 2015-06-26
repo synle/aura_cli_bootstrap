@@ -1,15 +1,19 @@
 {
-  "name": "nodeauracli",
-  "version": "1.0.0",
-  "description": "command line tool to bootstrap aura cmp",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "colors": "^1.1.2",
-    "prompt": "^0.2.14"
-  }
+    "name": "nodeauracli",
+    "version": "1.0.0",
+    "description": "command line tool to bootstrap Salesforce Aura codes",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "lenguyensy@gmail.com",
+    "license": "ISC",
+    "dependencies": {
+        "colors": "^1.1.2",
+        "prompt": "^0.2.14"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com/aura_cli_bootstrap.git"
+    }
 }
