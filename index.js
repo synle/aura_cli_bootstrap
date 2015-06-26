@@ -26,6 +26,7 @@ var componentUrl;
 //check command line arguments
 var arguments = process.argv;
 if(arguments.length >= 3){
+    //parse of component type
     var val = arguments[2];
     switch (val.toUpperCase().replace('--', '')) {
         case 'CMP':
@@ -38,6 +39,7 @@ if(arguments.length >= 3){
             break;
     };
 
+    //parse of naming
     if(arguments.length === 4){
         filename = arguments[3].trim(); 
         delete schema.properties.filename;
@@ -61,7 +63,7 @@ prompt.get(schema, function(err, result) {
         filename = result.filename.trim();    
     }
     else{
-        console.log('FileName: ' + filenameccl.bold.blue);
+        console.log('FileName: ' + filename.bold.blue);
     }
     
     appHost = result.appHost;
