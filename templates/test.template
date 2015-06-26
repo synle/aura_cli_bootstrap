@@ -14,5 +14,20 @@
  * limitations under the License.
  */
 ({
-	
+	owner:"sle",
+
+	test: {
+		attributes : {"renderItem" : "basic"},
+        test: [function(cmp) {
+        	
+        }, function(cmp){
+        	
+        }]
+    }
+
+
+    /**
+     * HELPER
+     */
+    
 })
