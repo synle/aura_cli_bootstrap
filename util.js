@@ -87,10 +87,10 @@ self.showAuraUrl = function(appHost, filetype, filename) {
 	var resultUrl
 	var partUrl = 'uitest';
 	if (filetype === 'cmp'){
-		resultUrl = 'http://localhost:9090/' + partUrl + '/' + filename + '.cmp'	
+		resultUrl = appHost + partUrl + '/' + filename + '.cmp';
 	}
 	else{
-		resultUrl = 'http://localhost:9090/' + partUrl + '/' + filename + '.app'
+		resultUrl = appHost + partUrl + '/' + filename + '.app';
 	}
 
     console.log('Aura ' + filetype + ' can be accessed via', resultUrl.green.bold);

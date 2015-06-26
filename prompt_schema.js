@@ -38,7 +38,7 @@ module.exports = {
         'appHost': {
             'message': 'Your Host'.bold.blue + '? Used to open the component on browser',
             'required': true,
-            'default': 'http://localhost:9090/uitest/'
+            'default': 'http://localhost:9090/'
         }
     }
 }

@@ -24,20 +24,26 @@ var hasCss;
 var appHost;
 var componentUrl;
 //check command line arguments
-process.argv.forEach(function(val, index, array) {
+var arguments = process.argv;
+if(arguments.length >= 3){
+    var val = arguments[2];
     switch (val.toUpperCase().replace('--', '')) {
         case 'CMP':
             filetype = 'cmp';
-            console.log('FileType: ' + 'cmp'.bold.blue);
             delete schema.properties.filetype;
             break;
         case 'APP':
             filetype = 'app';
-            console.log('FileType: ' + 'app'.bold.blue);
             delete schema.properties.filetype;
             break;
+    };
+
+    if(arguments.length === 4){
+        filename = arguments[3].trim(); 
+        delete schema.properties.filename;
     }
-});
+}
+
 
 
 
@@ -47,8 +53,17 @@ prompt.get(schema, function(err, result) {
     if(filetype === undefined){
         filetype = (result.filetype || '').toUpperCase().indexOf('CMP') >= 0 ? 'cmp' : 'app';    
     }
+    else{
+        console.log('FileType: ' + filetype.bold.blue);
+    }
     
-    filename = result.filename;
+    if(filename === undefined){
+        filename = result.filename.trim();    
+    }
+    else{
+        console.log('FileName: ' + filenameccl.bold.blue);
+    }
+    
     appHost = result.appHost;
     hasTest = (result.hasTest || '').toUpperCase().indexOf('Y') >= 0;
     hasController = (result.hasController || '').toUpperCase().indexOf('Y') >= 0;
@@ -57,6 +72,7 @@ prompt.get(schema, function(err, result) {
     hasCss = (result.hasCss || '').toUpperCase().indexOf('Y') >= 0;
 
 
+    //validation
     if ('' !==  util.getErrors(
         cwd,
         filename
