@@ -23,7 +23,7 @@ module.exports = {
         'hasRenderer': {
             'message': 'Does this have a ' + 'Renderer'.bold.blue + '? (' + 'Y'.bold.green + ' or ' + 'N'.bold.red + ')',
             'required': true,
-            'default': 'Y'
+            'default': 'N'
         },
         'hasHelper': {
             'message': 'Does this have a ' + 'Helper'.bold.blue + '? (' + 'Y'.bold.green + ' or ' + 'N'.bold.red + ')',

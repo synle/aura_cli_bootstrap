@@ -5,28 +5,14 @@ var colors = require('colors');
 var prompt = require('prompt');
 var fs = require('fs');
 var path = require('path');
+
 // internal
-//schema
 var schema = require('./prompt_schema.js');
-var templatePath = {
-    app: 'templates/app.template',
-    cmp: 'templates/cmp.template',
-    controller: 'templates/controller.template',
-    css: 'templates/css.template',
-    helper: 'templates/helper.template',
-    renderer: 'templates/renderer.template'
-};
+var util = require('./util');
+
 //aura cli absolute path
-var auracliModulePath = path.join(path.dirname(fs.realpathSync(__filename)), '/');
 var cwd = process.cwd();
-//read the template files
-var appTemplate = fs.readFileSync(auracliModulePath + templatePath.app, 'utf8');
-var cmpTemplate = fs.readFileSync(auracliModulePath + templatePath.cmp, 'utf8');
-var controllerTemplate = fs.readFileSync(auracliModulePath + templatePath.controller, 'utf8');
-var cssTemplate = fs.readFileSync(auracliModulePath + templatePath.css, 'utf8');
-var helperTemplate = fs.readFileSync(auracliModulePath + templatePath.helper, 'utf8');
-var testTemplate = fs.readFileSync(auracliModulePath + templatePath.helper, 'utf8');
-var rendererTemplate = fs.readFileSync(auracliModulePath + templatePath.renderer, 'utf8');
+
 //variable
 var filetype;
 var filename;
@@ -42,35 +28,26 @@ process.argv.forEach(function(val, index, array) {
     switch (val.toUpperCase().replace('--', '')) {
         case 'CMP':
             filetype = 'cmp';
+            console.log('FileType: ' + 'cmp'.bold.blue);
             delete schema.properties.filetype;
             break;
         case 'APP':
             filetype = 'app';
+            console.log('FileType: ' + 'app'.bold.blue);
             delete schema.properties.filetype;
             break;
     }
 });
-//pre-error
-var isValidDir = true;
-var curDirFiles = fs.readdirSync(cwd);
-var invalidFilesFound = [];
-curDirFiles.forEach(function(val) {
-    if (val.indexOf('Controller.js') >= 0 || val.indexOf('Helper.js') >= 0 || val.indexOf('Renderer.js') >= 0 || val.indexOf('Test.js') >= 0 || val.indexOf('.cmp') >= 0 || val.indexOf('.cmp') >= 0) {
-        // console.log('Error: Found invalid file: '.bold.red + path.join(cwd + '/' + val).green);
-        invalidFilesFound.push(val);
-        isValidDir = false;
-    }
-});
-if (isValidDir === false) {
-    console.log('Error'.red.bold + ': current directory ' + cwd.bold + ' already contained some definitions of Aura. Please change to a new directory without any Aura files and try this command again.');
-    console.log('Invalid files:'.bold.blue);
-    console.log(invalidFilesFound.join('\n'));
-    return;
-}
+
+
+
 //start prompt here
 prompt.start();
 prompt.get(schema, function(err, result) {
-    filetype = (result.filetype || '').toUpperCase().indexOf('CMP') >= 0 ? 'cmp' : 'app';
+    if(filetype === undefined){
+        filetype = (result.filetype || '').toUpperCase().indexOf('CMP') >= 0 ? 'cmp' : 'app';    
+    }
+    
     filename = result.filename;
     appHost = result.appHost;
     hasTest = (result.hasTest || '').toUpperCase().indexOf('Y') >= 0;
@@ -78,68 +55,29 @@ prompt.get(schema, function(err, result) {
     hasRenderer = (result.hasRenderer || '').toUpperCase().indexOf('Y') >= 0;
     hasHelper = (result.hasHelper || '').toUpperCase().indexOf('Y') >= 0;
     hasCss = (result.hasCss || '').toUpperCase().indexOf('Y') >= 0;
-    var componentUrl = 'http://localhost:9090/uitest/tabset_overflowTest.cmp';
 
 
-    //making the new folder
-    var newObjectDir = path.join(cwd + '/' + filename);
-    try {
-        fs.mkdirSync(newObjectDir);
-    } catch (e) {
-        console.log('Error: '.bold.red + ' component or application of the same name already ' + filename.green + ' exist in the directory ');
-        console.log(cwd.green);
+    if ('' !==  util.getErrors(
+        cwd,
+        filename
+    )){
+        //there is error , exit
         return;
     }
+    
+    //write to files
+    util.bootstrapFiles(
+        cwd,
+        filetype,
+        filename,
+        hasTest,
+        hasController,
+        hasRenderer,
+        hasHelper,
+        hasCss
+    )
 
 
-    //must have files
-    if (filetype === 'app'){
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + '.app'),
-            appTemplate
-        );
-    }
-    else{
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + '.cmp'),
-            cmpTemplate
-        );
-    }
-
-    //optional extras
-    if(hasTest === true){
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + 'Test.js'),
-            testTemplate
-        );
-    }
-    if(hasController === true){
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + 'Controller.js'),
-            controllerTemplate
-        );
-    }
-    if(hasRenderer === true){
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + 'Renderer.js'),
-            rendererTemplate
-        );
-    }
-    if(hasHelper === true){
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + 'Helper.js'),
-            helperTemplate
-        );
-    }
-    if(hasCss === true){
-        fs.writeFileSync(
-            path.join( newObjectDir, filename + '.css'),
-            cssTemplate
-        );
-    }
-
-
-    //copy the file into this newly created folder
-    console.log('Aura ' + filetype + ' can be accessed via', newObjectDir.bold.green);
-    console.log('Aura ' + filetype + ' can be accessed via', componentUrl.green);
+    //show url
+    util.showAuraUrl(appHost, filetype, filename);
 });

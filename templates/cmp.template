@@ -17,4 +17,7 @@
     <aura:attribute name="var1" type="String" description="" />
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
 
+    <div>
+        <h1>Awesome Component</h1>
+    </div>
 </aura:component>
