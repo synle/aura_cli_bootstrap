@@ -1,3 +1,6 @@
+#! /usr/bin/env node
+
+
 // dependencies
 // external
 var colors = require('colors');

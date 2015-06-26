@@ -2,6 +2,8 @@ Command line tool used to bootstrap Salesforce Aura codes
 =========================================================
 
 ```
+./auracli
+
 prompt: File type: cmp or app?:  (cmp) 
 prompt: File Name?:  (TestComponent) 
 prompt: Does this have a Test? (Y or N):  (Y) 
