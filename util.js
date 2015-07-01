@@ -51,7 +51,8 @@ self.bootstrapFiles = function(cwd, filetype, filename, hasTest, hasController, 
         controller: 'templates/controller.template',
         css: 'templates/css.template',
         helper: 'templates/helper.template',
-        renderer: 'templates/renderer.template'
+        renderer: 'templates/renderer.template',
+        test: 'templates/test.template' 
     };
     //read the template files
     var auracliModulePath = path.join(path.dirname(fs.realpathSync(__filename)), '/');
@@ -60,7 +61,7 @@ self.bootstrapFiles = function(cwd, filetype, filename, hasTest, hasController, 
     var controllerTemplate = fs.readFileSync(auracliModulePath + templatePath.controller, 'utf8');
     var cssTemplate = fs.readFileSync(auracliModulePath + templatePath.css, 'utf8');
     var helperTemplate = fs.readFileSync(auracliModulePath + templatePath.helper, 'utf8');
-    var testTemplate = fs.readFileSync(auracliModulePath + templatePath.helper, 'utf8');
+    var testTemplate = fs.readFileSync(auracliModulePath + templatePath.test, 'utf8');
     var rendererTemplate = fs.readFileSync(auracliModulePath + templatePath.renderer, 'utf8');
     //must have files
     if (filetype === 'app') {
